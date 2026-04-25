@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday princess!❤️🧿👸🏻</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:black;
+  color:white;
+  text-align:center;
+  font-family:Arial;
+}
+
+/* PASSWORD SCREEN */
+#intro{
+  position:fixed;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:black;
+  z-index:999;
+}
+
+input{
+  padding:10px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+  text-align:center;
+}
+
+button{
+  margin-top:10px;
+  padding:10px 20px;
+  background:#ff0066;
+  color:white;
+  border:none;
+  border-radius:20px;
+}
+
+/* MAIN */
+#bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("photo1.jpg") center/cover no-repeat;
+  filter:blur(25px);
+  transform:scale(1.3);
+  z-index:-1;
+}
+
+#main{display:none;}
+
+h1{
+  font-size:50px;
+  color:#ff66cc;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%{text-shadow:0 0 10px pink;}
+  100%{text-shadow:0 0 50px #ff00cc;}
+}
+
+img{
+  width:300px;
+  border-radius:20px;
+}
+
+#finalMsg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:60px;
+  font-weight:bold;
+  color:#ff4da6;
+  opacity:0;
+  z-index:999;
+}
+
+.showFinal{
+  animation:finalAnim 3s forwards;
+}
+
+@keyframes finalAnim{
+  0%{opacity:0; transform:scale(0.5);}
+  100%{opacity:1; transform:scale(1.2);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD SCREEN (NO INITIALIZING TEXT) -->
+<div id="intro">
+  <h2>Enter Password 💖</h2>
+  <input type="password" id="pass" placeholder="Password">
+  <button onclick="checkPass()">Enter</button>
+</div>
+
+<div id="bg"></div>
+
+<div id="main">
+  <h1 id="name"></h1>
+  <p id="typing"></p>
+  <img id="slide" src="photo1.jpg">
+  <br><br>
+  <button onclick="share()">📲 Share</button>
+</div>
+
+<div id="finalMsg">I LOVE YOU BHALU ❤️🧿👸🏻</div>
+
+<audio id="music" loop>
+  <source src="song.mp3">
+</audio>
+
+<script>
+
+let intro = document.getElementById("intro");
+let main = document.getElementById("main");
+let music = document.getElementById("music");
+let nameEl = document.getElementById("name");
+let typing = document.getElementById("typing");
+let slide = document.getElementById("slide");
+let bg = document.getElementById("bg");
+
+/* PASSWORD CHECK */
+function checkPass(){
+  let p = document.getElementById("pass").value;
+
+  if(p === "PANO123"){
+    intro.style.display = "none";
+    main.style.display = "block";
+    startAll();
+  } else {
+    alert("Wrong Password ❌");
+  }
+}
+
+/* START */
+function startAll(){
+
+  let m = music;
+  m.volume = 0;
+  m.play().catch(()=>{});
+
+  let v=0;
+  let f=setInterval(()=>{
+    if(v<1){v+=0.05; m.volume=v;}
+    else clearInterval(f);
+  },200);
+
+  typeName();
+  typeText();
+  slideshow();
+  confetti();
+  autoFire();
+
+  setTimeout(()=>{
+    document.getElementById("finalMsg").classList.add("showFinal");
+  },15000);
+}
+
+/* NAME */
+let nameText="HAPPY BIRTHDAY PRINCESS 👸🏻💖";
+let ni=0;
+function typeName(){
+ if(ni<nameText.length){
+  nameEl.innerHTML+=nameText.charAt(ni++);
+  setTimeout(typeName,80);
+ }
+}
+
+/* MESSAGE */
+let msg=`Panoo, there are 3 dates that are very important to me.
+The first is 18 February 2024 — the day we talked for the first time on chat.
+The second is 5 July 2025 — the day we came into a relationship.
+And the last, the most special one, is 7 May — my Bhaluuu’s birthday.
+Happy Birthday My Bhaluuu 🎂❤️💋
+I pray to God that all your dreams come true. Always keep smiling and always be mine 🙈
+May you get all the happiness in the world.
+Honestly, today I should have been with you celebrating your birthday. I really wanted to celebrate it with you, but because of my exams, it’s not possible right now 🥺
+I feel really bad about this…
+But it’s just this one birthday that I’m not able to celebrate with you. From now on, I’ll always be there with you, Panoo
+Happiest Birthday Wifeyyy 🎂👸🏻🧿💋✨
+
+"Tumse hi shuru, tumpe hi khatam meri har baat ho,
+Tum paas raho to har din khaas ho…
+Dil chahta hai bas itna,
+Har janam mein tum hi meri saath ho❤️"`;
+
+let i=0;
+function typeText(){
+ if(i<msg.length){
+  typing.innerHTML+=msg.charAt(i++);
+  setTimeout(typeText,50);
+ }
+}
+
+/* SLIDESHOW */
+let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
+let idx=0;
+function slideshow(){
+ setInterval(()=>{
+  slide.src=photos[idx];
+  bg.style.backgroundImage="url('"+photos[idx]+"')";
+  idx=(idx+1)%photos.length;
+ },3000);
+}
+
+/* CONFETTI */
+function confetti(){
+ setInterval(()=>{
+  let c=document.createElement("div");
+  c.className="confetti";
+  c.style.left=Math.random()*100+"vw";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),5000);
+ },200);
+}
+
+/* FIREWORKS */
+function autoFire(){
+ setInterval(()=>{
+  for(let i=0;i<15;i++){
+   let s=document.createElement("div");
+   s.className="spark";
+   s.style.left=Math.random()*100+"vw";
+   s.style.top=Math.random()*100+"vh";
+   document.body.appendChild(s);
+   setTimeout(()=>s.remove(),1000);
+  }
+ },1500);
+}
+
+/* SHARE */
+function share(){
+ window.open("https://wa.me/?text=Open%20this%20surprise%20❤️");
+}
+
+</script>
+
+</body>
+</html>
